@@ -1,0 +1,103 @@
+:root {
+    --bg: #15121f;
+    --card: #1f1a2e;
+    --text: #e8e3f7;
+    --muted: #9b93b8;
+    --accent: #a78bfa;
+    --accent-dark: #4c2f8f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Courier New", ui-monospace, monospace;
+    padding: 16px;
+}
+
+main {
+    max-width: 520px;
+    width: 100%;
+    background: var(--card);
+    border: 3px solid var(--accent-dark);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 6px 6px 0 var(--accent-dark);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+h1 { margin: 0; font-size: 2.4rem; color: var(--accent); }
+h2 { margin: 4px 0 0; font-size: 1rem; font-weight: normal; color: var(--muted); }
+
+ul.links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+}
+
+ul.links li { margin: 8px 0; }
+
+a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+    transition: color 0.15s, background 0.15s;
+}
+
+a:hover {
+    color: var(--bg);
+    background: var(--accent);
+}
+
+ul.links a::before { content: "> "; color: var(--accent); }
+ul.links a:hover::before { color: var(--bg); }
+
+.note { color: var(--muted); font-size: 0.9rem; }
+
+.tuft {
+    --frame-w: 80px;
+    --frame-h: 72px;
+    --cols: 4;
+    --rows: 8;
+    --scale: 1.5;
+    --row: 0;
+
+    width:  calc(var(--frame-w) * var(--scale));
+    height: calc(var(--frame-h) * var(--scale));
+    flex-shrink: 0;
+
+    background-image: url("tuft-spritesheet-4x.png");
+    background-repeat: no-repeat;
+    background-size:
+            calc(var(--frame-w) * var(--cols) * var(--scale))
+            calc(var(--frame-h) * var(--rows) * var(--scale));
+    background-position-y: calc(var(--frame-h) * var(--row) * var(--scale) * -1);
+
+    image-rendering: pixelated;
+    animation: tuft-play 0.8s steps(4) infinite;
+    cursor: pointer;
+}
+
+@keyframes tuft-play {
+    from { background-position-x: 0; }
+    to   { background-position-x: calc(var(--frame-w) * var(--cols) * var(--scale) * -1); }
+}
+
+.tuft.idle  { --row: 0; }
+.tuft.blink { --row: 1; }
+.tuft.sleep { --row: 2; animation-duration: 1.6s; }
+.tuft.huh   { --row: 3; }
+.tuft.alert { --row: 6; }
+
+.tuft:hover { --row: 6; animation-duration: 0.5s; }
