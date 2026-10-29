@@ -33,19 +33,24 @@
     const song = document.getElementById("song");
     song.volume = 0.4;
 
-    function startSong() {
-        song.play().then(() => {
-            ["click", "keydown", "touchstart", "scroll"].forEach(e =>
-                window.removeEventListener(e, startSong)
-            );
-        }).catch(() => {});
+    const events = ["pointerdown", "keydown", "touchend"];
+
+    function stopListening() {
+        events.forEach(e => document.removeEventListener(e, startSong));
     }
 
-    startSong();
+    function startSong() {
+        song.play()
+            .then(stopListening)
+            .catch(err => console.log("song blocked until interaction:", err.name));
+    }
 
-    ["click", "keydown", "touchstart", "scroll"].forEach(e =>
-        window.addEventListener(e, startSong)
-    );
+    song.addEventListener("error", () => {
+        console.log("song.mp3 failed to load — check the file name/path");
+    });
+
+    events.forEach(e => document.addEventListener(e, startSong));
+    startSong();
 </script>
 </body>
 </html>
