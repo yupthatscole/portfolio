@@ -26,12 +26,22 @@
 
     <p class="note">catnet is the only one youre getting with proper documentation. be grateful, or ill delete it.</p>
 
-    <audio id="song" src="03 Flying Model Rockets.mp3" loop autoplay></audio>
+    <audio id="song" src="song.mp3#t=7" autoplay></audio>
 </main>
 
 <script>
     const song = document.getElementById("song");
+    const START_AT = 7;
     song.volume = 0.4;
+
+    song.addEventListener("loadedmetadata", () => {
+        if (song.currentTime < START_AT) song.currentTime = START_AT;
+    });
+
+    song.addEventListener("ended", () => {
+        song.currentTime = START_AT;
+        song.play();
+    });
 
     const events = ["pointerdown", "keydown", "touchend"];
 
