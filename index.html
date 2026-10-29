@@ -25,6 +25,27 @@
     </ul>
 
     <p class="note">catnet is the only one youre getting with proper documentation. be grateful, or ill delete it.</p>
+
+    <audio id="song" src="song.mp3" loop autoplay></audio>
 </main>
+
+<script>
+    const song = document.getElementById("song");
+    song.volume = 0.4;
+
+    function startSong() {
+        song.play().then(() => {
+            ["click", "keydown", "touchstart", "scroll"].forEach(e =>
+                window.removeEventListener(e, startSong)
+            );
+        }).catch(() => {});
+    }
+
+    startSong();
+
+    ["click", "keydown", "touchstart", "scroll"].forEach(e =>
+        window.addEventListener(e, startSong)
+    );
+</script>
 </body>
 </html>
